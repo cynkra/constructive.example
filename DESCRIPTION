@@ -14,3 +14,5 @@ Imports:
     ellipsis
 Suggests:
     dplyr
+URL: https://github.com/cynkra/constructive.example
+BugReports: https://github.com/cynkra/constructive.example/issues
