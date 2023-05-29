@@ -1,0 +1,73 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# constructive.example
+
+This package serves as an example on how to extend {constructive}.
+
+We build a new constructor for the class "tbl_df" (tibbles), using the deprecated
+constructor `tibble::data_frame()`.
+
+We also support a new class : "qr". This is the class of the object we get
+after applying `base::qr()` to get the QR decomposition of a matrix.
+We build a couple constructors for it.
+
+The reconstruction is not perfect due to rounding errors so the function is not
+a good fit for {constructive} but is a good use case for an example.
+
+
+
+You might use it as a template, all useful constructive functions are imported
+in "R/constructive.example-package.R"
+
+## examples
+
+Without {constructive.example}
+
+```{r, error = TRUE}
+library(constructive)
+
+# will fail because the constructor is undefined
+construct(dplyr::band_members, opts_tbl_df("data_frame"))
+
+# will work but use the list constructor
+A <- matrix(1:6, nrow = 3)
+qr_A <- qr(A)
+constructive::construct(qr_A)
+```
+
+With {constructive.example}
+
+```{r, error = TRUE}
+library(constructive.example)
+
+# we can now choose our custom constructor for tbl_df objects
+construct(dplyr::band_members, opts_tbl_df("data_frame"))
+
+# and the "qr" class is now supported  
+A <- matrix(1:6, nrow = 3)
+qr_A <- qr(A)
+constructive::construct(qr_A)
+
+# the recreation was not perfect due to rounding errors but we're pretty close
+constructive::construct_issues()
+
+# fall back on the next method, which is for lists
+constructive::construct(qr_A, opts_qr("next"))
+
+# use explicitly the list method (same result)
+constructive::construct(qr_A, opts_qr("list"))
+
+```

@@ -1,0 +1,16 @@
+Package: constructive.example
+Title: Example of a package defining a class and methods for 'constructive'
+Version: 0.0.0.9000
+Authors@R: 
+    person("Antoine", "Fabri", , "antoine.fabri@example.com", role = c("aut", "cre"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    constructive,
+    utils,
+    ellipsis
+Suggests:
+    dplyr
