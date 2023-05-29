@@ -18,7 +18,7 @@ opts_qr <- function(constructor = c("qr", "next", "list"), ...) {
   # a helper to operate all checks even if an early check fails
   .cstr_combine_errors(
     # a helper to match a constructor, including user defined constructors
-    constructor <- .cstr_match_constructor(constructor),
+    constructor <- .cstr_match_constructor(constructor, "qr"),
     ellipsis::check_dots_empty()
   )
   # builds objects that .cstr_fetch_opts() knows how to handle

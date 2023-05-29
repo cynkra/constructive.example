@@ -66,32 +66,61 @@ construct(dplyr::band_members, opts_tbl_df("data_frame"))
 A <- matrix(1:6, nrow = 3)
 qr_A <- qr(A)
 constructive::construct(qr_A)
-#> Warning in ls(constructors[[class]], all.names = TRUE): 'constructors[[class]]'
-#> converted to character string
-#> Error in `constructive::construct()`:
-#> ! {constructive} could not build the requested code.
-#> Caused by error:
-#> ! no item called "constructors[[class]]" on the search list
+#> {constructive} couldn't create code that reproduces perfectly the input
+#> ℹ Call `construct_issues()` to inspect the last issues
+#> qr(matrix(
+#>   c(
+#>     0x1.ffffffffffff6p-1, 0x1.ffffffffffffep+0, 2.999999999999999555911,
+#>     0x1.0000000000002p+2, 5.000000000000000888178, 6.000000000000000888178
+#>   ),
+#>   nrow = 3L,
+#>   ncol = 2L
+#> ))
 
 # the recreation was not perfect due to rounding errors but we're pretty close
 constructive::construct_issues()
-#> NULL
+#>     original$qr         | recreated$qr           
+#> [1] -3.7416573867739409 - -3.7416573867739404 [1]
+#> [2] 0.5345224838248488  | 0.5345224838248488  [2]
+#> [3] 0.8017837257372732  | 0.8017837257372732  [3]
+#> [4] -8.5523597411975807 - -8.5523597411975825 [4]
+#> [5] 1.9639610121239324  - 1.9639610121239346  [5]
+#> [6] 0.9886930334182005  - 0.9886930334182003  [6]
+#> 
+#>  `original$qraux`: 1.2672612419124243 1.1499536117281517
+#> `recreated$qraux`: 1.2672612419124243 1.1499536117281519
 
 # fall back on the next method, which is for lists
 constructive::construct(qr_A, opts_qr("next"))
-#> Warning in ls(constructors[[class]], all.names = TRUE): 'constructors[[class]]'
-#> converted to character string
-#> Error in `constructive::construct()`:
-#> ! {constructive} could not build the requested code.
-#> Caused by error in `opts_qr()` at constructive/R/opts.R:29:2:
-#> ! no item called "constructors[[class]]" on the search list
+#> list(
+#>   qr = matrix(
+#>     c(
+#>       -0x1.deeea11683f48p+1, 0.534522483824848793077, 0.8017837257372731896155,
+#>       -8.55235974119758, 1.963961012123932370343, 0x1.fa35f928a0dfap-1
+#>     ),
+#>     nrow = 3L,
+#>     ncol = 2L
+#>   ),
+#>   rank = 2L,
+#>   qraux = c(0x1.446b3b958090ap+0, 0x1.26635c224a1c4p+0),
+#>   pivot = 1:2
+#> ) |>
+#>   structure(class = "qr")
 
 # use explicitly the list method (same result)
 constructive::construct(qr_A, opts_qr("list"))
-#> Warning in ls(constructors[[class]], all.names = TRUE): 'constructors[[class]]'
-#> converted to character string
-#> Error in `constructive::construct()`:
-#> ! {constructive} could not build the requested code.
-#> Caused by error in `opts_qr()` at constructive/R/opts.R:29:2:
-#> ! no item called "constructors[[class]]" on the search list
+#> list(
+#>   qr = matrix(
+#>     c(
+#>       -0x1.deeea11683f48p+1, 0.534522483824848793077, 0.8017837257372731896155,
+#>       -8.55235974119758, 1.963961012123932370343, 0x1.fa35f928a0dfap-1
+#>     ),
+#>     nrow = 3L,
+#>     ncol = 2L
+#>   ),
+#>   rank = 2L,
+#>   qraux = c(0x1.446b3b958090ap+0, 0x1.26635c224a1c4p+0),
+#>   pivot = 1:2
+#> ) |>
+#>   structure(class = "qr")
 ```
