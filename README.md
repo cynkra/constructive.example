@@ -36,7 +36,7 @@ construct(dplyr::band_members, opts_tbl_df("data_frame"))
 # will work but use the list constructor
 A <- matrix(1:6, nrow = 3)
 qr_A <- qr(A)
-constructive::construct(qr_A)
+construct(qr_A)
 #> list(
 #>   qr = matrix(
 #>     c(
@@ -65,7 +65,7 @@ construct(dplyr::band_members, opts_tbl_df("data_frame"))
 # and the "qr" class is now supported  
 A <- matrix(1:6, nrow = 3)
 qr_A <- qr(A)
-constructive::construct(qr_A)
+construct(qr_A)
 #> {constructive} couldn't create code that reproduces perfectly the input
 #> ℹ Call `construct_issues()` to inspect the last issues
 #> qr(matrix(
@@ -78,7 +78,7 @@ constructive::construct(qr_A)
 #> ))
 
 # the recreation was not perfect due to rounding errors but we're pretty close
-constructive::construct_issues()
+construct_issues()
 #>     original$qr         | recreated$qr           
 #> [1] -3.7416573867739409 - -3.7416573867739404 [1]
 #> [2] 0.5345224838248488  | 0.5345224838248488  [2]
@@ -89,9 +89,13 @@ constructive::construct_issues()
 #> 
 #>  `original$qraux`: 1.2672612419124243 1.1499536117281517
 #> `recreated$qraux`: 1.2672612419124243 1.1499536117281519
+```
 
+Other constructors
+
+``` r
 # fall back on the next method, which is for lists
-constructive::construct(qr_A, opts_qr("next"))
+construct(qr_A, opts_qr("next"))
 #> list(
 #>   qr = matrix(
 #>     c(
@@ -107,8 +111,8 @@ constructive::construct(qr_A, opts_qr("next"))
 #> ) |>
 #>   structure(class = "qr")
 
-# use explicitly the list method (same result)
-constructive::construct(qr_A, opts_qr("list"))
+# use explicitly the list method (same result here)
+construct(qr_A, opts_qr("list"))
 #> list(
 #>   qr = matrix(
 #>     c(
@@ -122,5 +126,16 @@ constructive::construct(qr_A, opts_qr("list"))
 #>   qraux = c(0x1.446b3b958090ap+0, 0x1.26635c224a1c4p+0),
 #>   pivot = 1:2
 #> ) |>
+#>   structure(class = "qr")
+```
+
+corrupted objects
+
+``` r
+corrupted <- structure(1:3, class = "qr")
+# thanks to our implementation of is_corrupted_qr() we don't fail here but just fall
+# back to the next method
+construct(corrupted)
+#> 1:3 |>
 #>   structure(class = "qr")
 ```
