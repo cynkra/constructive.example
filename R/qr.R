@@ -15,26 +15,18 @@
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_qr <- function(constructor = c("qr", "next", "list"), ...) {
-  # a helper to operate all checks even if an early check fails
-  .cstr_combine_errors(
-    # a helper to match a constructor, including user defined constructors
-    constructor <- .cstr_match_constructor(constructor, "qr"),
-    ellipsis::check_dots_empty()
-  )
   # builds objects that .cstr_fetch_opts() knows how to handle
-  .cstr_options("qr", constructor = constructor)
+  .cstr_options("qr", constructor = constructor[[1]], ...)
 }
 
 #' @export
 #' @importFrom constructive .cstr_construct
 #' @method .cstr_construct qr
 .cstr_construct.qr <- function(x, ...) {
-  # handle options fed through opts_qr()
-  opts <- .cstr_fetch_opts("qr", ...)
-  # apply a constructor only if the object is a proper "qr" object
+  opts <- list(...)$opts$qr %||% opts_qr()
   if (is_corrupted_qr(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$qr[[opts$constructor]]
-  constructor(x, ...)
+  UseMethod(".cstr_construct.qr", structure(NA, class = opts$constructor))
+  #.cstr_construct.qr.qr(x, ...)
 }
 
 is_corrupted_qr <- function(x) {
@@ -43,8 +35,9 @@ is_corrupted_qr <- function(x) {
   !is.list(x) || !all(names(x) %in% c("qr", "rank", "qraux", "pivot"))
 }
 
-# our main constructor
-constructor_qr_qr <- function(x, ...) {
+#' @export
+#' @method .cstr_construct.qr qr
+.cstr_construct.qr.qr <- function(x, ...) {
   # inverse transformation
   inv <- qr.X(x)
   # .cstr_apply constructs the code for `inv` and interpolates it into a qr() call
@@ -56,9 +49,8 @@ constructor_qr_qr <- function(x, ...) {
   )
 }
 
-# an aditional low level constructor
-constructor_qr_list <- function(x, ..., origin) {
-  # we use the method for "list", methods are not exported functions so we use
-  # getS3method() to fetch it
-  getS3method(".cstr_construct", "list")(x, ...)
+#' @export
+#' @method .cstr_construct.qr list
+.cstr_construct.qr.list <- function(x, ...) {
+  .cstr_construct.list(x, ...)
 }
