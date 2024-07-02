@@ -1,10 +1,10 @@
+#' @importFrom constructive .cstr_construct .cstr_apply
+NULL
+
 #' @export
 .cstr_construct.tbl_df.data_frame <- function(x, ...) {
-  # construct idiomatic code
-  # iterate on elements of x to construct them, and wrap them in a tibble::data_frame() call
-  code <- .cstr_apply(x, fun = "tibble::data_frame", ...)
-
-  # in case attributes are different than canonical, .cstr_repair_attributes fixes them
+  args <- as.list(x)
+  code <- .cstr_apply(args, fun = "tibble::data_frame", ...)
   .cstr_repair_attributes(
     x, code, ...,
     ignore = "row.names",

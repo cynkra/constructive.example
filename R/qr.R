@@ -1,32 +1,28 @@
-#' Constructive options class 'qr'
+#' @importFrom constructive .cstr_options .cstr_construct .cstr_apply .cstr_repair_attributes
+NULL
+
+#' Constructive options for class 'qr'
 #'
 #' These options will be used on objects of class 'qr'.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
-#' * `"qr"` (default): We wrap a character vector with `as.qr()`, if the qr
-#'   is infinite it cannot be converted to character and we wrap a numeric vector and
-#' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
-#'   on the object to see in which order the methods will be tried.
-#' * `"list"` : Define as a list and repair attributes
+#' Depending on `constructor`, we construct the object as follows:
+#' * `"qr"` (default): We build the object using `qr()`.
+#' * `"next"` : Use the constructor for the next supported class.
 #'
-#' @param constructor String. Name of the function used to construct the environment.
-#' @inheritParams constructive::opts_atomic
-#'
-#' @return An object of class <constructive_options/constructive_options_environment>
+#' @param constructor String. Name of the function used to construct the object.
+#' @param ... Additional options used by user defined constructors through the `opts` object
+#' @return An object of class <constructive_options/constructive_options_qr>
 #' @export
-opts_qr <- function(constructor = c("qr", "next", "list"), ...) {
-  # builds objects that .cstr_fetch_opts() knows how to handle
+opts_qr <- function(constructor = c("qr", "next"), ...) {
   .cstr_options("qr", constructor = constructor[[1]], ...)
 }
 
 #' @export
-#' @importFrom constructive .cstr_construct
 #' @method .cstr_construct qr
 .cstr_construct.qr <- function(x, ...) {
   opts <- list(...)$opts$qr %||% opts_qr()
   if (is_corrupted_qr(x) || opts$constructor == "next") return(NextMethod())
   UseMethod(".cstr_construct.qr", structure(NA, class = opts$constructor))
-  #.cstr_construct.qr.qr(x, ...)
 }
 
 is_corrupted_qr <- function(x) {
@@ -47,10 +43,4 @@ is_corrupted_qr <- function(x) {
     x, code, ...,
     idiomatic_class = "qr"
   )
-}
-
-#' @export
-#' @method .cstr_construct.qr list
-.cstr_construct.qr.list <- function(x, ...) {
-  .cstr_construct.list(x, ...)
 }

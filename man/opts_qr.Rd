@@ -2,28 +2,25 @@
 % Please edit documentation in R/qr.R
 \name{opts_qr}
 \alias{opts_qr}
-\title{Constructive options class 'qr'}
+\title{Constructive options for class 'qr'}
 \usage{
-opts_qr(constructor = c("qr", "next", "list"), ...)
+opts_qr(constructor = c("qr", "next"), ...)
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment.}
+\item{constructor}{String. Name of the function used to construct the object.}
 
-\item{...}{Should not be used. Forces passing arguments by name.}
+\item{...}{Additional options used by user defined constructors through the \code{opts} object}
 }
 \value{
-An object of class <constructive_options/constructive_options_environment>
+An object of class <constructive_options/constructive_options_qr>
 }
 \description{
 These options will be used on objects of class 'qr'.
 }
 \details{
-Depending on \code{constructor}, we construct the environment as follows:
+Depending on \code{constructor}, we construct the object as follows:
 \itemize{
-\item \code{"qr"} (default): We wrap a character vector with \code{as.qr()}, if the qr
-is infinite it cannot be converted to character and we wrap a numeric vector and
-\item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
-on the object to see in which order the methods will be tried.
-\item \code{"list"} : Define as a list and repair attributes
+\item \code{"qr"} (default): We build the object using \code{qr()}.
+\item \code{"next"} : Use the constructor for the next supported class.
 }
 }

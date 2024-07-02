@@ -3,7 +3,6 @@
 S3method(.cstr_construct,integer.ones)
 S3method(.cstr_construct,qr)
 S3method(.cstr_construct,tbl_df.data_frame)
-S3method(.cstr_construct.qr,list)
 S3method(.cstr_construct.qr,qr)
 export(opts_qr)
 importFrom(constructive,.cstr_apply)
