@@ -121,7 +121,7 @@ deprecated constructor `tibble::data_frame()`, equivalent to
 We used the following workflow:
 
 - Call
-  `constructive::.cstr_new_constructor(class = c("tbl_df", "tbl", "data.frame"), constructor = "data_frame")`
+  `constructive::.cstr_new_constructor(class = c("tbl_df", "tbl", "data.frame"), constructor = "tibble::data_frame")`
 - Save the script and call `devtools::document()`, see [this
   commit](https://github.com/cynkra/constructive.example/commit/3aeb429f00dafa458575e194e0f35ce8eb05ca2d#diff-f74f3e31638afda340efd3e55979a30b9a1ba431fbd6ccceaff0f1711ef45ef4)
 - Update the code (see [this
