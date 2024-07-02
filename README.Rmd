@@ -25,9 +25,8 @@ after applying `base::qr()` to get the QR decomposition of a matrix.
 The reconstruction of qr objects is not perfect due to rounding errors so the 
 feature is not a good fit for {constructive} but is a good use case for an example.
 
-{constructive} works even if it doesn't support directly some classes
-
-Without {constructive.example}
+First note that {constructive} works even if it doesn't support directly a class,
+it will then use the next relevant constructor:
 
 ```{r, error = TRUE}
 library(constructive)
@@ -40,9 +39,10 @@ construct(qr_A)
 
 We used the following workflow:
 
-* call `constructive::.cstr_new_class(class = "qr", constructor = "qr")`
-* save the script and tweak the code of `.cstr_construct.qr.qr()` and `is_corrupted_qr()`
-* call `devtools::document()`
+* Call `constructive::.cstr_new_class(class = "qr", constructor = "qr")`
+* Save the script and call `devtools::document()` (see [this commit](https://github.com/cynkra/constructive.example/commit/3aeb429f00dafa458575e194e0f35ce8eb05ca2d#diff-f74f3e31638afda340efd3e55979a30b9a1ba431fbd6ccceaff0f1711ef45ef4)).
+* Update the code (see [this commit](https://github.com/cynkra/constructive.example/commit/ba11788e65f2ff5df37ef6dd0941c65245212089))
+* `devtools::load_all()`
 
 After this we have:
 
@@ -79,9 +79,10 @@ constructor `tibble::data_frame()`, equivalent to `tibble::tibble()`.
 
 We used the following workflow:
 
-* call `constructive::.cstr_new_constructor(class = c("tbl_df", "tbl", "data.frame"), constructor = "data_frame")`
-* save the script and tweak the code of `.cstr_construct.tbl.data_frame()`
-* call `devtools::document()`
+* Call `constructive::.cstr_new_constructor(class = c("tbl_df", "tbl", "data.frame"), constructor = "data_frame")`
+* Save the script and call `devtools::document()`, see [this commit](https://github.com/cynkra/constructive.example/commit/3aeb429f00dafa458575e194e0f35ce8eb05ca2d#diff-f74f3e31638afda340efd3e55979a30b9a1ba431fbd6ccceaff0f1711ef45ef4)
+* Update the code (see [this commit](https://github.com/cynkra/constructive.example/commit/ba11788e65f2ff5df37ef6dd0941c65245212089))
+* `devtools::load_all()`
 
 After this we have:
 
