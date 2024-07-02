@@ -26,15 +26,20 @@ opts_qr <- function(constructor = c("qr", "next"), ...) {
 }
 
 is_corrupted_qr <- function(x) {
-  FALSE
+  # we could go further but here we just check that the high level structure
+  # makes sense for a "qr" object. We should not check the class here.
+  !is.list(x) || !all(names(x) %in% c("qr", "rank", "qraux", "pivot"))
 }
 
 #' @export
 #' @method .cstr_construct.qr qr
 .cstr_construct.qr.qr <- function(x, ...) {
-  # opts <- list(...)$opts$qr %||% opts_qr()
-  args <- list()
-  code <- .cstr_apply(args, fun = "qr", ...)
+  # inverse transformation
+  inv <- qr.X(x)
+  args <- list(inv)
+  # .cstr_apply constructs the code for `inv` and interpolates it into a qr() call
+  code <- .cstr_apply(args, "qr", ..., new_line = FALSE)
+  # in case attributes are different than canonical, .cstr_repair_attributes fixes them
   .cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = "qr"
