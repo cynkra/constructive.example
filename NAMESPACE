@@ -2,4 +2,5 @@
 
 S3method(.cstr_construct.qr,qr)
 S3method(constructive::.cstr_construct,qr)
+S3method(constructive::.cstr_construct.tbl_df,data_frame)
 export(opts_qr)
