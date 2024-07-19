@@ -40,7 +40,7 @@ is_corrupted_qr <- function(x) {
   # opts <- list(...)$opts$qr %||% opts_qr()
 
   # Instead of the call below we need to fetch the args of the constructor in `x`.
-  args <- list()
+  args <- list(qr.X(x))
 
   # This creates a call qr(...) where ... is the constructed code
   # of the arguments stored in `args`
