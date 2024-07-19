@@ -4,7 +4,7 @@
   # opts <- list(...)$opts$tbl_df %||% opts_tbl_df()
 
   # Instead of the call below we need to fetch the args of the constructor in `x`.
-  args <- list()
+  args <- as.list.data.frame(x)
 
   # This creates a call data_frame(...) where ... is the constructed code
   # of the arguments stored in `args`
