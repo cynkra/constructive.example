@@ -17,7 +17,7 @@
   constructive::.cstr_repair_attributes(
     x, code, ...,
     # attributes built by the constructor
-    # ignore =,
+    ignore = "row.names",
 
     # not necessarily just a string, but the whole class(x) vector
     idiomatic_class = c("tbl_df", "tbl", "data.frame")
