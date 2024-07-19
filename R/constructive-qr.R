@@ -31,7 +31,10 @@ opts_qr <- function(constructor = c("qr", "next"), ...) {
 is_corrupted_qr <- function(x) {
   # check here if the object has the right structure to be constructed
   # leaving FALSE is fine but you'll be vulnerable to corrupted objects
-  FALSE
+
+  # we could go further but here we just check that the high level structure
+  # makes sense for a "qr" object. We should not check the class here.
+  !is.list(x) || !all(names(x) %in% c("qr", "rank", "qraux", "pivot"))
 }
 
 #' @export
